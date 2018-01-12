@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>map</title>
+    <style>
+        #wrap{
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+
+<div id="main" style="height: 800px"></div>
+
+<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+<script src="../js/echarts.js"></script>
+<script type="text/javascript">
+  $(function(){
+
+    var mapChart;
+    var option;
+
+    $.get('../js/beijing.json', function (beijingJson) {
+      echarts.registerMap('北京', beijingJson);
+      mapChart = echarts.init(document.getElementById('main'));
+      option = {
+        title:{
+          text: '北京市通州区各镇分布图',
+          left: 'center'
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}<br/>{c} (个)'
+        },
+        series:[
+          {
+            name: '通州区各镇安装机井统计图',
+            type: 'map',
+            left:30,
+            top:"center",
+            map: '北京', // 自定义扩展图表类型  
+            aspectScale: 0.75, //地图长宽比. default: 0.75  
+            zoom: 0.5, //控制地图的zoom，动手自己更改下 看看什么效果吧  
+            roam: false,
+            itemStyle:{
+              normal:{label:{show:true}},
+              emphasis:{label:{show:true}}
+            }
+          }
+        ]
+      }
+      mapChart.setOption(option);
+    });
+  })
+</script>
+</body>
+<html>

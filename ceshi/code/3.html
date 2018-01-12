@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="img" style="height: 500px; width:50%;"></div>
+
+
+
+<script src="../js/echarts.js"></script>
+<script type="text/javascript">
+  var myChart= echarts.init(document.getElementById('img'))
+
+
+  var echartData = [
+    {
+    value: 2154,
+    name: '龙头管件'
+  }, {
+    value: 3854,
+    name: '墙面地面'
+  }, {
+    value: 3515,
+    name: '家电维修'
+  }, {
+    value: 3515,
+    name: '挂件饰品安装'
+  }, {
+    value: 3854,
+    name: '挂件的是安装'
+  }, {
+    value: 2154,
+    name: '灯具电路'
+  },{
+    value: 3854,
+    name: '墙体打孔'
+  },{
+    value: 3854,
+    name: '门窗五金'
+  },{
+    value: 3854,
+    name: '卫浴安装维修'
+  },{
+    value: 1034,
+    name: '卫浴安检维修'
+  },]
+
+  var rich = {
+    yellow: {
+      color: "#ffc72b",
+      fontSize: 14 ,
+      padding: [5, 4],
+      align: 'center'
+    },
+    total: {
+      color: "#ffc72b",
+      fontSize: 30 ,
+      align: 'center'
+    },
+    white: {
+      color: "#ccc",
+      align: 'center',
+      fontSize: 12 ,
+      padding: [21, 0]
+    },
+    blue: {
+      color: '#ccc',
+      fontSize: 12,
+      align: 'center'
+    },
+
+  }
+  option = {
+    backgroundColor: '#fff',
+    title:[
+      {
+        text:'销售总量',
+        left:'center',
+        top:'40%',
+        padding:[25,0],
+        textStyle:{
+          color:'#ccc',
+          fontSize:18,
+          align:'center'
+        },
+      },
+
+    ] ,
+    legend:[
+      {
+        selectedMode:false,
+        formatter: function(name) {
+           total = 0; //各科正确率总和
+          var averagePercent; //综合正确率
+          echartData.forEach(function(value, index, array) {
+            total += value.value;
+          });
+          return '{total|' + total + '}';
+        },
+        data: [echartData[0].name],
+        left: 'center',
+        top: "50%",
+        icon: 'none',
+        align:'center',
+        textStyle: {
+          color: "#fff",
+          fontSize: 16 ,
+          rich: rich
+        },
+      },
+      {
+        orient: 'horizontal',
+        left: 'center',
+        bottom: 'bottom',
+         width: '80%',
+         height:'40%',
+         icon:'circle',
+         align: 'left',
+         itemGap: 15,
+        data:echartData,
+      }],
+
+    series: [
+      //
+      {
+      name: '销售总量',
+      type: 'pie',
+      radius: ['38%', '50%'],
+      hoverAnimation: false,
+      color: ['#ffd54f', '#5c9ded', '#a0d467', '#e44924', '#972d11', '#ffae00','#50c0ea','#b6a385','#875200','#fd9b02'],
+      label: {
+        normal: {
+          show: true,
+          formatter: function(params,) {
+            var total = 0; //考生总数量
+            var percent = 0; //考生占比
+            echartData.forEach(function(value, ) {
+              total += value.value;
+            });
+            percent = ((params.value / total) * 100).toFixed(1);
+            return '{white|' + params.name + '}{blue|' + percent + '%}';
+          },
+          rich: rich,
+          textStyle: {
+            "color": "#ccc"
+          },
+        },
+      },
+      labelLine: {
+        normal: {
+          length: 0,
+          length2: 20,
+          lineStyle: {
+            color: '#ccc'
+          }
+        }
+      },
+      data:echartData,
+    },
+      {
+        type:'pie',
+        radius: ['40%', '55%'],
+      }
+    ]
+  };
+  myChart.setOption(option)
+</script>
+
+</body>
+</html>

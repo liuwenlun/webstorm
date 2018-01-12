@@ -1,0 +1,107 @@
+import React from 'react';
+import {
+    Row,
+    Col,
+    Menu,
+    Icon,
+    Button,
+    Modal
+} from 'antd';
+
+import logo from '../images/logo.png';
+
+const MenuItem = Menu.Item;
+
+class NewsHeader extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            key : 'top',
+            username : null,
+            userId : null,
+            isShow :  false
+        }
+    }
+    changeKey = (event) => {
+        //console.log(event); //item, key
+        //判断用户点击的是否是登录注册的按钮
+        if(event.key === 'loginAndRegister'){
+            this.setState({
+                isShow : true
+            })
+        }
+        //更新状态
+        this.setState({
+            key : event.key,
+        })
+    };
+
+    //定义点击关闭对话框的方法
+    handleShow = (isShow, event) => {
+        console.log(isShow, event);
+        this.setState({isShow});
+    };
+    render(){
+        let {key, username, userId, isShow} = this.state;//对象的解构赋值
+        let UserItem = username
+        ?(
+            <MenuItem className="register" key="person">
+                <Button type="primary">{username}</Button>&nbsp;&nbsp;
+                <Button type="dashed">个人中心</Button>&nbsp;&nbsp;
+                <Button type="Ghost">退出</Button>
+            </MenuItem>
+        )
+        :(
+            <MenuItem className="register" key="loginAndRegister">
+                <Icon type="appstore"/> 登录/注册
+            </MenuItem>
+        );
+        return (
+            <Row>
+                <Col span={1}></Col>
+                <Col span={3}>
+                    <div className="logo">
+                        <img src={logo} alt=""/>
+                        <span>ReactNews</span>
+                    </div>
+                </Col>
+                <Col span={19}>
+                    <Menu onClick={this.changeKey} mode="horizontal" selectedKeys={[key]}>
+                        <MenuItem key="top">
+                            <Icon type="appstore"/> 头条
+                        </MenuItem>
+                        <MenuItem key="shehui">
+                            <Icon type="appstore"/> 社会
+                        </MenuItem>
+                        <MenuItem key="guonei">
+                            <Icon type="appstore"/>国内
+                        </MenuItem>
+                        <MenuItem key="guoji">
+                            <Icon type="appstore"/>国际
+                        </MenuItem>
+                        <MenuItem key="yule">
+                            <Icon type="appstore"/>娱乐
+                        </MenuItem>
+                        <MenuItem key="tiyu">
+                            <Icon type="appstore"/>体育
+                        </MenuItem>
+                        <MenuItem key="keji">
+                            <Icon type="appstore"/>科技
+                        </MenuItem>
+                        <MenuItem key="shishang">
+                            <Icon type="appstore"/>时尚
+                        </MenuItem>
+                        {UserItem}
+                    </Menu>
+                    <Modal title='用户中心' visible={isShow} okText='关闭'
+                    onOk={this.handleShow.bind(this, false)} onCancel={this.handleShow.bind(this, false)}>
+
+                    </Modal>
+                </Col>
+
+                <Col span={1}></Col>
+            </Row>
+        )
+    }
+}
+export default NewsHeader

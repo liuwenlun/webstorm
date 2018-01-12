@@ -1,0 +1,43 @@
+
+.containerTop{
+  margin-top: 20px;
+}
+.leftContainer1{
+  width:400px;
+  float: left;
+}
+
+.tabContainer{
+  float: left;
+  width:450px;
+  margin-left:20px;
+}
+.tabContainer li>a{
+  display: block;
+  color: #666;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.reactPro{
+  float: left;
+  width:450px;
+  margin-left: 20px;
+}
+
+.proList a{
+  float: left;
+  width:60px;
+}
+.proList .pro{
+  padding:10px;
+  margin-top: 10px;
+  overflow: hidden;
+
+}
+
+.proList .pro-bg{
+  background: #eee;
+}

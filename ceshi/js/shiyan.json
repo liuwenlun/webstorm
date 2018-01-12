@@ -1,0 +1,42 @@
+
+{
+"returnCode": "success",
+"errorMessage": "",
+"workerAppraise": [
+{
+"id": 1,
+"content": "神准时",
+"size": 2
+},
+{
+"id": 2,
+"content": "技术棒",
+"size": 2
+},
+{
+"id": 3,
+"content": "中国好师傅",
+"size": 1
+},
+{
+"id": 4,
+"content": "满分，点赞",
+"size": 1
+},
+{
+"id": 5,
+"content": "不满意哟",
+"size": 1
+},
+{
+"id": 6,
+"content": "沟通有点累",
+"size": 1
+},
+{
+"id": 7,
+"content": "业务不熟练",
+"size": 1
+}
+]
+}

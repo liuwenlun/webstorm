@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body{
+				height: 100%;
+				overflow: hidden;
+			}
+			#header{
+				height: 2rem;
+				line-height: 2rem;
+				background: rgba(0,0,0,.8);
+				color: #fff;
+				text-align: center;
+				font-size: 0.8rem;
+				font-family: '宋体';
+			}
+			#wrap{
+				position: absolute;
+				top: 2rem;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				overflow: hidden;
+			}
+			#list{
+				list-style: none;
+				overflow: hidden;
+			}
+			/*#content{
+				position: relative;
+			}*/
+			#content li{
+				float: left;
+				width: 7rem;
+				height: 7rem;
+				margin: 0.5rem;
+				background: url(img/loadingImg.gif) no-repeat #eee;
+				background-position: 50% 50%;
+			}
+			#content li img{
+				width: 100%;
+				border-radius: 10px;
+				opacity: 0;
+				transition: 0.5s opacity;
+			}
+			#footer{
+				position: absolute;
+				left: 0;
+				bottom: -4rem;
+				width: 100%;
+				height: 4rem;
+				line-height: 4rem;
+				text-align: center;				
+			}
+			#scrollBar{
+				position: absolute;
+				right: 0;
+				top: 0;
+				width: 4px;
+				height: 100%;
+				background: deeppink;
+				opacity: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="header">
+			三国女将
+		</div>
+		<div id="wrap">			
+			<div id="content">
+				<ul id="list">
+					<!--<li>
+						<img src="img/1.jpg"/>
+					</li>
+					-->
+				</ul>
+				<div id="footer">
+					上滑加载更多
+				</div>
+			</div>
+			<div id="scrollBar">
+			
+			</div>
+		</div>
+		
+	</body>
+	<script type="text/javascript" src="js/transformCss.js"></script>
+	<script type="text/javascript" src="js/drag.js"></script>
+	<script type="text/javascript">
+		document.addEventListener('touchstart',function(ev){
+			ev.preventDefault();
+		});
+		
+		//rem适配
+		//IIFE
+		(function(){
+			var width= document.documentElement.clientWidth/16;
+			var styleN = document.createElement('style');
+			styleN.innerHTML = 'html{font-size: '+ width +'px !important;}'
+			document.head.appendChild(styleN);
+		})();
+		
+		//img路径拿到  img/1.jpg
+		var urlArr = [];
+		
+		for (var i=0;i<100;i++) {
+			urlArr.push('img/' + (i%18+1) + '.jpg');
+		};
+		console.log(urlArr)
+		
+		//获取
+		var list = document.getElementById('list');
+		var header = document.getElementById('header');
+		var wrap = document.getElementById('wrap');
+		var footer = document.getElementById('footer');
+		var scrollBar = document.getElementById('scrollBar');
+		
+		var footerH = footer.offsetHeight;
+		//footer隐藏
+		transformCss(footer,'scale',0);
+		//底部标识
+		var isBottom = false;
+		
+		//创建li
+		
+		var length = 12;
+		//记录一开始li的个数
+		var start = 0;
+		
+		createLi();
+		function createLi(){
+			//限定范围
+			if(start >= urlArr.length){
+				
+				footer.innerHTML = '加载完了。。。。。';
+				
+				setTimeout(function(){
+					var minH = content.offsetHeight - wrap.clientHeight;
+					content.style.transition = '2s';
+					transformCss(content,'translateY',-minH);
+				},3000);
+				
+				return;
+			};
+			
+			var end = start + length;
+			
+			end = end > urlArr.length ? urlArr.length : end;
+			
+			for (var i=start;i<end;i++) {
+				var li = document.createElement('li');
+				//src实质上是img,
+				li.src = urlArr[i];
+				//标识
+				li.isLaod = false;
+				list.appendChild(li);
+			}
+			start = end;
+			
+			//懒加载
+			lazyload();
+		};
+		
+		function lazyload(){
+			var lis = document.querySelectorAll('li');
+			var minT = header.offsetHeight;
+			var maxT = document.documentElement.clientHeight;
+			
+			for (var i=0;i<lis.length;i++) {
+				var top = lis[i].getBoundingClientRect().top;
+				
+				//判断
+				if( !lis[i].isLaod &&minT < top && top <maxT){
+					lis[i].isLaod = true;
+					//创建img
+					createImg(lis[i]);
+				}
+				
+			}
+			
+		}
+		
+		//创建img
+		function createImg(li){
+			//var img = document.createElement()
+			var img = new Image();  //对象			
+			img.src = li.src;
+			
+//			setTimeout(function(){
+//				img.style.opacity = '1';
+//			},20);
+			img.onload = function(){
+				img.style.opacity = '1';
+			}
+			li.appendChild(img);
+			
+		}
+		
+		//滚动条高度
+		var scaleBar = wrap.clientHeight/content.offsetHeight;
+		scrollBar.style.height = wrap.clientHeight * scaleBar + 'px';
+		
+		
+		
+		//滑屏
+		var callback = {
+			start:function(){
+				//滚动条
+				scrollBar.style.opacity = '1';
+				
+				//判断是否是底部isBottom = true
+				var minH = content.offsetHeight - wrap.clientHeight -10;
+				var translateY = transformCss(content,'translateY');
+				if(Math.abs(translateY) >= minH){
+					isBottom = true;
+				}
+				
+			},			
+			move:function(){
+				scrollBar.style.opacity = '1';
+				var scaleBar = wrap.clientHeight/content.offsetHeight;
+				var dis = transformCss(content,'translateY') * scaleBar;
+				transformCss(scrollBar,'translateY',-dis);
+				
+				
+				if(isBottom){
+					//底部出来了
+					var minH = content.offsetHeight - wrap.clientHeight -10;
+					var translateY = transformCss(content,'translateY');
+					var footerScale = (Math.abs(translateY) - minH)/footerH;
+					
+					footerScale = footerScale > 1 ? 1 : footerScale;
+					
+					transformCss(footer,'scale',Math.abs(footerScale))
+				}
+				//加载相应img
+				//懒加载
+				lazyload();
+			},
+			//touchend
+			over:function(){							
+				//底部isBottom = true
+				//footer必须全部被拖出来
+				var minH = content.offsetHeight - wrap.clientHeight -10;
+				var translateY = transformCss(content,'translateY');
+				if(isBottom && ((Math.abs(translateY) - minH)>footerH)){
+					//禁止回弹
+					clearInterval(wrap.children[0].timer);
+					//创建li
+					createLi();
+				}
+				var scaleBar = wrap.clientHeight/content.offsetHeight;
+				scrollBar.style.height = wrap.clientHeight * scaleBar + 'px';
+				
+				var dis = transformCss(content,'translateY') * scaleBar;
+				transformCss(scrollBar,'translateY',-dis);
+				
+				
+			},
+			end:function(){
+				scrollBar.style.opacity = 0;
+			}
+						
+		}		
+		Cdrag(wrap,callback);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</script>
+</html>

@@ -1,0 +1,44 @@
+/*整体与头部间距*/
+.containerTop{
+    margin-top: 20px;
+}
+/*轮播样式设置*/
+.leftContainer1 {
+    width: 400px;
+    float: left;
+}
+.tabContainer{
+    float: left;
+    width:450px;
+    margin-left:20px;
+}
+/*设置book组件的样式*/
+.tabContainer li>a{
+    display: block;
+    color: #666;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/*设置右边react推送的样式*/
+.reactPro{
+    float: left;
+    width:450px;
+    margin-left: 20px;
+}
+
+.proList a{
+    float: left;
+    width:60px;
+}
+.proList .pro{
+    padding:10px;
+    margin-top: 10px;
+    overflow: hidden;
+
+}
+
+.proList .pro-bg {
+    background: #eee;
+}

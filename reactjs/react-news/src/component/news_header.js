@@ -1,0 +1,244 @@
+import React from 'react'
+import axios from 'axios'
+import{
+    Row,
+    Col,
+    Menu,
+    Icon,
+    Button,
+    Modal,
+    Tabs,
+    Form,
+    Input,
+    message
+
+} from 'antd'
+
+
+import logo from '../images/logo.png'
+
+const MenuItem = Menu.Item;
+const TabPane = Tabs.TabPane;
+const FormItme = Form.Item;
+
+class Header extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            key:'top',
+            userName : null,
+            userId : null,
+            isShow : false
+        }
+    }
+    componentWillMount(){
+        let user = JSON.parse(localStorage.getItem('Person_key'));
+        //判断里边呢是否有数据
+        if(user){
+            //更新状态
+            this.setState({
+                username : user.username,
+                userId : user.userId
+            })
+        }
+    }
+    changeKey= (event) =>{
+
+        //判断是否点击的登录注册
+        if(event.key === 'zhuceDenglu'){
+            this.setState({
+                isShow : true
+            })
+        }
+        this.props.form.resetFields()
+        this.setState ( {
+            key:event.key
+        })
+    }
+    handleShow = (isShow, event) => {
+       // console.log(isShow, event);
+        this.setState({isShow});
+    };
+
+    // changeValue = () => {
+    //     this.props.form.resetFields();
+    // };
+
+    //定义点击登录注册的方法
+    handleSubmit = (isRegister, event) => {
+        //阻止默认行为
+        event.preventDefault();
+        //发送请求
+        let action = isRegister?'register':'login';
+        let user = this.props.form.getFieldsValue();
+        //拼接url
+        let url = `http://newsapi.gugujiankong.com/Handler.ashx?action=${action}&username=${user.username}&password=${user.password}&r_userName=${user.r_userName}&r_password=${user.r_password}&r_confirmPassword=${user.r_confirmPassword}`
+
+        axios.get(url)
+            .then(response => {
+                let data = response.data;
+                console.log(data);
+                //判断登录还是注册
+                if(isRegister){//表示的是注册
+                    message.success('恭喜您，注册成功');
+                }else{
+                    //判断登录是否成功
+                    if(!data){
+                        message.error('登录失败');
+                    }else{
+                        //更新状态
+                        this.setState({
+                            userName : data.NickUserName,
+                            userId : data.UserId
+                        })
+
+                        let {username, userId} = this.state;
+                        message.success('登录成功');
+                        localStorage.setItem('Person_key', JSON.stringify({username, userId}))
+                    }
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+        //更新状态
+        this.setState({
+            isShow : false
+        })
+    };
+
+    handleOk= (isShow)=>{
+        this.setState({isShow})
+    }
+    handleOut = () => {
+        this.setState({
+            userName : null,
+            userId : null
+        });
+        //点击退出的同时，清除掉保存的人物信息
+        localStorage.removeItem('Person_key');
+    }
+    render(){
+        let {key, userName, userId,isShow} = this.state;
+        let {getFieldDecorator} = this.props.form;
+
+        let userItem = userName?
+            (
+                <MenuItem className="register" key="poren">
+                    <Button type="primary">{userName}</Button>&nbsp; &nbsp;
+                    <Button type="dashed">个人中心</Button>&nbsp; &nbsp;
+                    <Button onClick={this.handleOut} type="Ghost">退出</Button>
+                </MenuItem>
+
+            ):
+            (
+                <MenuItem className="register" key="zhuceDenglu">
+                    <Icon type="appstore"/>登录或注册
+                </MenuItem>
+
+            )
+        return(
+
+                <Row >
+                    <Col span={1}></Col>
+                    <Col span={3}>
+
+                        <div className="logo">
+                            <img src={logo} alt=""/>
+                            <span>ReactNews</span>
+                        </div>
+
+                    </Col>
+                    <Col span={19}>
+                        <Menu onClick={this.changeKey} mode="horizontal" selectedKeys={[key]}>
+                            <MenuItem key="top">
+                                <Icon type="appstore"/> 头条
+                            </MenuItem>
+                            <MenuItem key="shehui">
+                                <Icon type="appstore"/> 社会
+                            </MenuItem>
+                            <MenuItem key="guonei">
+                                <Icon type="appstore"/>国内
+                            </MenuItem>
+                            <MenuItem key="guoji">
+                                <Icon type="appstore"/>国际
+                            </MenuItem>
+                            <MenuItem key="yule">
+                                <Icon type="appstore"/>娱乐
+                            </MenuItem>
+                            <MenuItem key="tiyu">
+                                <Icon type="appstore"/>体育
+                            </MenuItem>
+                            <MenuItem key="keji">
+                                <Icon type="appstore"/>科技
+                            </MenuItem>
+                            <MenuItem key="shishang">
+                                <Icon type="appstore"/>时尚
+                            </MenuItem>
+                            {userItem}
+                        </Menu>
+                        <Modal title='用户中心' visible={isShow}
+                               onOk={this.handleOk.bind(this,false)}
+                               onCancel={this.handleOk.bind(this,false)}
+                        >
+                            <Tabs onChange={() => this.props.form.resetFields()}>
+                                <TabPane tab="登录" key="1">
+                                    <Form onSubmit={this.handleSubmit.bind(this, false)}>
+
+                                        <FormItme label='用户名:'>
+                                            {
+                                                getFieldDecorator('username')(
+                                                    <Input  type="text" placeholder="请输入用户名"/>
+                                                )
+                                            }
+                                        </FormItme>
+                                        <FormItme label='密码:'>
+                                            {
+                                                getFieldDecorator('password')(
+                                                    <Input  type="password" placeholder="请输入密码"/>
+                                                )
+                                            }
+                                        </FormItme>
+                                        <Button  htmlType='submit' type="primary">登录 </Button>
+                                    </Form>
+
+                                </TabPane>
+                                <TabPane tab="注册" key="2">
+                                    <Form onSubmit={this.handleSubmit.bind(this, true)}>
+                                        <FormItme label='用户名:'>
+                                            {
+                                                getFieldDecorator('r_userName')(
+                                                    <Input  type="text" placeholder="请输入用户名"/>
+                                                )
+                                            }
+                                        </FormItme>
+                                        <FormItme label='密码:'>
+                                            {
+                                                getFieldDecorator('r_password')(
+                                                    <Input  type="password" placeholder="请输入密码"/>
+                                                )
+                                            }
+                                        </FormItme>
+                                        <FormItme label='确认密码:'>
+                                            {
+                                                getFieldDecorator('r_confirmPassword')(
+                                                    <Input  type="password" placeholder="请再次输入密码"/>
+                                                )
+                                            }
+                                        </FormItme>
+                                        <Button htmlType='submit' type="primary">注册 </Button>
+                                    </Form>
+
+                                </TabPane>
+                            </Tabs>
+                        </Modal>
+                    </Col>
+                    <Col span={1}></Col>
+
+                </Row>
+
+        )
+    }
+}
+export default Form.create()(Header);

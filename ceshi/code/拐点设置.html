@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+<div id="map-wrap" style="height:500px;">
+
+</div>
+<script src="../js/echarts.js"></script>
+<script  src="../js/customed.js"></script>
+<script type="text/javascript">
+  var myChart = echarts.init(document.getElementById('map-wrap'))
+
+  // 指定图表的配置项和数据
+  var option = {
+    //标题
+    title: {
+      text: '前端课程时间(天)'
+    },
+    //弹窗组件
+    tooltip: {},
+    //图例
+    legend: {
+      data: ['前端课程']
+    },
+    //X轴
+    xAxis: {
+      data: ["HTML", "css", "Node", "JS基础",'JS框架', "移动端"],
+
+
+    },
+    //Y轴
+    yAxis: {
+      axisLine:{
+        lineStyle:{
+          opacity:0
+        }
+      }
+    },
+    //数据
+    series: [{
+      name: '前端课程',
+      //拆线图: line
+
+      type: 'line',
+      symbol: 'image://../img/sanjiao.png',
+      color: ['#2F42FF'],
+      symbolSize: 20,
+      symbolOffset:[0,'-30%'],
+      data: [5, 10, 10, 10, 35, 15]
+
+    }]
+  }
+
+  // 使用刚指定的配置项和数据显示图表
+  myChart.setOption(option)
+
+</script>
+</body>
+</html>

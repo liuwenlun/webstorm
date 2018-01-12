@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>map</title>
+    <style>
+
+    </style>
+</head>
+<body>
+
+<div id="main" style="height: 500px; width: 865px " ></div>
+
+<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="../js/echarts.js"></script>
+<script type="text/javascript">
+  $(function(){
+
+        var mapChart = echarts.init(document.getElementById('main'));
+        var data = [
+          {name: "密云区", value: 399},
+
+          {name: "延庆区", value: 9},
+          {name: "丰台区", value: 9},
+          {name: "海淀区", value: 9},
+          {name: "大兴区", value: 9},
+
+          {name: "平谷区", value: 12},
+          {name: "怀柔区", value: 12},
+          {name: "昌平区", value: 12},
+          {name: "顺义区", value: 14},
+          {name: "通州区", value: 15},
+          {name: "房山区", value: 16},
+          {name: "门头沟区", value: 18},
+          {name: "石景山区", value: 18},
+          {name: "朝阳区", value: 299},
+          {name: "西城区", value: 21},
+          {name: "东城区", value: 21},
+        ];
+    var geoCoordMap = {
+      "密云区":[116.933352,40.577362],
+
+      "延庆区":[116.115006,40.485325],
+      "丰台区":[116.286968,39.833642],
+      "海淀区":[116.280016,39.996074],
+      "大兴区":[1111.280016,39.996074],
+
+      "平谷区":[117.112335,40.194783],
+      "怀柔区":[116.608122,40.524272],
+      "昌平区":[116.235906,40.218085],
+      "顺义区":[116.753525,40.128936],
+      "通州区":[116.708403,39.802486],
+      "房山区":[115.899157,39.735535],
+      "门头沟区":[115.885381,40.007183],
+      "石景山区":[116.195445,39.914601],
+      "朝阳区":[116.536409,39.961489],
+      "西城区":[116.366794,39.915309],
+      "东城区":[116.418757,39.917544],
+      "海淀区":[116.280016,39.996074],
+    };
+    var convertData = function (data) {
+      var res = [];
+      for (var i = 0; i < data.length; i++) {
+        var geoCoord = geoCoordMap[data[i].name];
+        if (geoCoord) {
+          res.push({
+            name: data[i].name,
+            value: geoCoord.concat(data[i].value)
+          });
+        }
+      }
+      return res;
+    };
+    var convertedData = [
+      convertData(data),
+      convertData(data.sort(function(a, b) {
+        return b.value - a.value;
+      }).slice(0, 6))
+    ];
+      $.get('../js/beijing.json', function (beijingJson)  {
+        echarts.registerMap('北京', beijingJson);
+       mapChart.setOption({
+          title: {
+            text: "区域排行",
+            textStyle: {
+              color: "#555555",
+              fontWeight: "bold",
+              fontSize: 24
+            },
+            top: "10%",
+            right: "18%"
+          },
+         tooltip: {
+           trigger: 'item',
+           formatter: function (params) {
+             if((params.data.value instanceof Array) == true){
+               return params.data.name + ' : ' + params.data.value[2];
+             }else{
+               return params.data.name + ' : ' + params.data.value;
+             }
+
+           }
+         },
+          yAxis: {
+            type: "category",
+            data:["1.朝阳", "2.海冰", "3.东城", "4.密云", "5.昌平区"],
+            max: 35,
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false,
+              alignWithLabel: true
+            },
+            axisLabel: {
+              textStyle: {
+                color: "#4e5d6c"
+              },
+              fontWeight: "bold"
+            }
+          },
+
+          xAxis: {
+            type: "value",
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              show: false
+            },
+            splitLine: {
+              show: false
+            }
+          },
+
+          grid: {
+            top: '-800',
+            width: '38%',
+            right: "4%",
+            containLabel: true
+          },
+         visualMap: {
+           show:false,
+           min: 0,
+           max: 500,
+           left: 'left',
+           top: 'bottom',
+           text: ['高', '低'], // 文本，默认为数值文本
+           calculable: true,
+           seriesIndex: [1],
+           inRange: {
+             // color: ['#3B5077', '#031525'] // 蓝黑
+             // color: ['#ffc0cb', '#800080'] // 红紫
+             // color: ['#3C3B3F', '#605C3C'] // 黑绿
+             color: ['#0f0c29', '#302b63', '#0f0c29'] // 黑紫黑
+             // color: ['#23074d', '#cc5333'] // 紫红
+             // color: ['#00467F', '#A5CC82'] // 蓝绿
+             // color: ['#1488CC', '#2B32B2'] // 浅蓝
+             // color: ['#00467F', '#A5CC82'] // 蓝绿
+             // color: ['#00467F', '#A5CC82'] // 蓝绿
+             // color: ['#00467F', '#A5CC82'] // 蓝绿
+             // color: ['#00467F', '#A5CC82'] // 蓝绿
+
+           }
+         },
+         geo: {
+           show: true,
+           left: "10%",
+           top: "center",
+           map: '北京',
+           label: {
+             normal: {
+               show: false
+             },
+             emphasis: {
+               show: false,
+             }
+           },
+           roam: false,
+           itemStyle: {
+             normal: {
+               areaColor: '#0f0c29',
+               borderColor: '#3B5077',
+             },
+             emphasis: {
+               areaColor: '#2B91B7',
+             }
+           }
+         },
+
+          series: [
+            {
+              name: 'pm2.5',
+              type: 'scatter',
+              coordinateSystem: 'geo',
+              data: convertData(data),
+              symbolSize: 10,
+              label: {
+                normal: {
+
+                  formatter: '{b}',
+                  position: 'bottom',
+                  show: false
+                },
+                emphasis: {
+                  show: false
+                }
+              },
+
+            },
+
+
+            {
+              type: 'map',
+              map: '北京',
+              geoIndex: 0,
+              aspectScale: 1.2, //长宽比
+              showLegendSymbol: false, // 存在legend时显示
+
+              roam: true,
+              itemStyle: {
+
+                normal: {
+                  formatter:'{b}',
+                  color: '#fff'
+
+                },
+                emphasis: {
+                  show:true,
+                  areaColor: '#51c8ee'
+                }
+              },
+              animation: false,
+              data: data,
+              zlevel : 6
+            },
+            {
+            type: "bar",
+            barWidth: 15,
+            data: data,
+            barCategoryGap: "35%",
+            itemStyle: {
+              normal: {
+                color: '#451075'
+              }
+            },
+
+            label: {
+              normal: {
+                show: true,
+                position: "right",
+                textStyle: {
+                  color: "#c6c6c6" //color of value
+                }
+              }
+            }
+          }]
+        })
+      })
+
+
+
+
+
+  })
+</script>
+</body>
+<html>

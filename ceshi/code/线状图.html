@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        p{
+            margin-top: -70px;
+            text-align: center;
+        }
+
+        ul{
+            width: 443px;
+            border: 1px solid #FEC367;
+            list-style: none;
+            padding-left: 0px;
+            height: 48px;
+        }
+        li{
+
+            border-right:1px solid #FEC367;
+            width: 110px;
+            float: left;
+            border-box:box-sizing;
+            line-height: 50px;
+            text-align: center;
+            color: #FEC367;
+        }
+        li:hover{
+            background-color:#FEC367 ;
+            color: #FFF;
+        }
+        li:last-child{
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <div class="title">
+        <ul>
+        <li class="a">今天</li>
+        <li>昨天</li>
+        <li>7天</li>
+        <li>30天</li>
+        </ul>
+    </div>
+    <div id="map-wrap" style="height:300px;"></div>
+
+
+</div>
+<script src="../js/echarts.js"></script>
+<script type="text/javascript">
+  var myChart = echarts.init(document.getElementById('map-wrap'))
+
+  // 指定图表的配置项和数据
+  var option = {
+    //标题
+    title: {
+      text: '近7天的数据',
+      textStyle:{
+        color: '#333',
+
+      },
+      left:'center',
+      top:'bottom',
+      bottom:'50%'
+    },
+
+//    在地图上显示文字提示
+//    tooltip: {},
+    //图例
+    
+    //X轴
+        xAxis: {
+          data: ["", "", "", "",'','','',''],
+          axisTick:{
+            show:false
+          },
+
+
+        },
+        //Y轴
+        yAxis: {
+          splitLine:{
+            show:false,  //显示分割线         
+          },
+        },
+        //数据
+        series: [{
+          name: '前端课程',
+          //拆线图: line
+          type: 'line',
+          smooth:true,
+          data: [5, 10, 10, 10, 35, 15,45,65]
+
+        }]
+  }
+
+  // 使用刚指定的配置项和数据显示图表
+  myChart.setOption(option)
+
+</script>
+</body>
+</html>

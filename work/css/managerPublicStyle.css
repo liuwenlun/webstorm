@@ -1,0 +1,251 @@
+*{
+	margin:0;
+	padding:0;
+	box-sizing: border-box;
+  	-webkit-box-sizing: border-box;
+  	-moz-box-sizing: border-box
+}
+a{
+	text-decoration:none;
+	color:#f29715;
+}
+textarea {  
+	-webkit-appearance: none;
+}
+h4{
+	font-size:24px !important;
+	text-align:center;
+}
+li{
+	list-style: none;
+}
+td{
+	text-indent: 5px;
+}
+a:hover{
+	text-decoration:none !important;
+/* 	color:#f29715 !important; */
+}
+.cursor-hand{
+	cursor: pointer;
+}
+
+/* 瑙ｅ喅iPhone涓媔Frame婊氬姩闂 */
+.scroll-wrapper {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    overflow-y: auto;
+    /* 鎻愮ず: 璇峰湪姝ゅ鍔犱笂闇�瑕佽缃殑澶у皬(dimensions)鎴栦綅缃�(positioning)淇℃伅! */
+}
+.breadcrumb>li+li:before {
+    padding: 0 5px;
+    color: #ccc;
+    content: "" !important;
+}
+.breadcrumb li{
+    white-space: nowrap;
+    margin-right: 5px;
+}
+.scrollHeightBox{
+	width:100%;
+	overflow:hidden;
+	box-sizing:border-box; 	
+}
+.text-right{
+	padding:0;
+	margin-bottom:10px;
+}
+.text-right a{
+	color:white;
+}
+.text-right button{
+	background:#f29715;
+	border-radius:5px;
+}
+
+.hid{
+	display:none !important;
+}
+
+.btn-group-lg>.btn, .btn-lg{
+	padding:4px 16px ;
+}
+.mySubmit{
+	background:#f29715;
+	border:0;
+	outline: none;
+	color:white;
+	width: 150px;
+}
+.mySubmit:hover{
+	color:white !important;
+}
+.myBtn{
+	background: #f29715;
+	color: white !important;
+	outline: none;
+	border: 0;
+	border-radius: 4px;
+	padding: 7px 14px;
+	font-size: 14px;
+	vertical-align: middle;
+}
+.form-group{
+	overflow:hidden;
+}
+.myBtnFirst{
+	background: white;
+	color: black;
+	outline: none;
+	border: 1px solid #dcdcdc;
+	border-radius: 4px;
+	padding: 7px 14px;
+	font-size: 14px;
+	vertical-align: middle;
+}
+.myBtn:hover{
+	color:white !important;
+}
+
+.gongneng span{
+	display: inline-block;
+	text-align: left;
+	padding: 0 !important;
+}
+table{
+	font-size : 14px !important;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+	line-height:35px !important;
+	padding:0px !important;
+}
+.table-bordered>thead>tr>td, .table-bordered>thead>tr>th{
+	font-weight: normal;
+	text-indent: 5px;
+}
+.hid{
+	display: none !important;
+}
+.myInput{
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+.myPadding{
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+.myMaginBottom{
+	margin-bottom:10px !important;
+}
+.myMarginBottom0{
+	margin-bottom:0 !important;
+}
+.myPaddingAll{
+	padding:0 !important;
+}
+.myMarginTop{
+	margin-top:8px;
+}
+.myTr{
+	background: #f29715 !important;
+	color:white !important;
+}
+.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus{
+	outline-offset:0 !important;
+	outline:none;
+}
+#myModal{
+	border-bottom:1px solid #dcdcdc;
+	margin-bottom:15px;
+}
+.myShowImg{
+	height: 300px;
+	margin: 0 auto;
+	overflow: hidden;
+	padding: 0 20px 0 50px;
+}
+.imgShow{
+	border: 1px solid #dcdcdc;
+	height: 200px;
+	width: 200px;
+    float: left;
+    margin-right: 20px;
+}
+#ossfile{
+	width:300px;
+	float:left;
+}
+.progress{
+	width:201px;
+}
+
+a.operation{
+	white-space:nowrap;
+}
+.myTitle th{
+	background: #f29715;
+	color: white;
+	text-indent: 20px;
+	font-size: 15px;
+	border: 0;
+}
+.nowrap{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+}
+/* 瑙ｅ喅div-resize浜嬩欢css鏍峰紡 */
+.resize-triggers {
+	visibility: hidden;
+}
+
+.resize-triggers, .resize-triggers > div, .contract-trigger:before {
+	content: " ";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+.resize-triggers > div {
+	background: #eee;
+	overflow: hidden;
+}
+
+.contract-trigger:before {
+	width: 200%;
+	height: 200%;
+}
+.modal-footer1{
+    margin: 15px 0;
+    text-align: right;
+    border-top: 1px solid #e5e5e5;
+}
+.imgShow1{
+	border: 1px solid #dcdcdc;
+    height: 200px;
+    width: 200px;
+    float: left;
+    margin-right: 20px;
+}
+
+.time{
+	width : 170px !important;
+}
+.operate{
+	width : 170px !important;
+}
+.propertyId{
+	width : 80px !important;
+}
+.payStatus{
+	width : 100px !important;
+}
+.name{
+	width : 90px !important;
+}
